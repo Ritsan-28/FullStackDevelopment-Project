@@ -1,14 +1,27 @@
 
 
         h2,h3{
-            color : blue;
+            color : rgb(255, 230, 0);
         }
         .val{
-            color : darkslategrey;
+            color : rgb(0, 255, 128);
         }
         #ind{
-            color : darkcyan;
+            color : rgb(253, 94, 224);
         }
         .name{
-            color  :goldenrod
+            color  :rgb(247, 177, 0);
+        }
+        .a{
+            color :rgb(255, 149, 0);
+        }
+        *{
+            background-color: slategrey ;
+        }
+        div{
+            margin : 20px;
+            border : 3px;
+            border-style :solid ;
+            border-color :aqua;
+            padding : 30px;
         }
