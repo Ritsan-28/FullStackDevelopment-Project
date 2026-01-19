@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics & Reports</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="page-title">
+        Analytics & Reports
+    </div>
+
+    <div class="box">
+        <div class="section-title">Filters</div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Date</label>
+                <input type="date" class="form-control">
+            </div>
+
+            <div class="col-md-6">
+                <label>Department</label>
+                <select class="form-select">
+                    <option>All</option>
+                    <option>Electrical</option>
+                    <option>Plumbing</option>
+                    <option>Lift</option>
+                    <option>Cleaning</option>
+                </select>
+            </div>
+        </div>
+
+        <p class="note mt-2">
+            * Complaint priority is automatically assigned by AI. Users and admins cannot manually set priority.
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="section-title">Complaints by Department</div>
+                <p>Chart will be displayed here</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box">
+                <div class="section-title">Priority Distribution (AI Assigned)</div>
+                <p>Chart will be displayed here</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Resolution Time Trend</div>
+        <p>Chart will be displayed here</p>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Recurring Issues</div>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Issue</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Electrical Fault</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Water Leakage</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Lift Breakdown</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Key Insights</div>
+        <ul>
+            <li>Electrical complaints increased this month</li>
+            <li>Lift issues are frequently escalated by AI</li>
+            <li>Cleaning department resolves complaints faster</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

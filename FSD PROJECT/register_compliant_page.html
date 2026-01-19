@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0;
+    }
+.shape{
+    width:10px;
+    height:90px ;
+    border: black;
+}
+.header{
+    position: fixed;
+    width: 100%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.411);
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-bottom: 10px;   
+    background: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.title{
+    margin-top: 1%;
+    margin-bottom: 0px;
+}
+#un{
+    font-size: 20px;
+}
+
+.right{
+    padding-right: 100px;
+    display: flex;
+    align-items: center;
+    padding: 0px 17px;
+    gap: 20px;
+}
+img{
+    width: 20px;
+    height: 20px;
+    fill: red;
+}
+.logoutB{
+    border: white;
+    padding: 10px 5px 10px 5px;
+    border-radius: 10px;
+    background: #ffffff;
+   
+    color: red;
+    font-size: 20px;
+}
+.logoutB:hover{
+    background:#fcdedaed;
+}
+
+.main{
+    padding-top: 75px;
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    height: 750px;
+}
+
+.side_bar{
+    background-color: rgb(255, 255, 255);
+}
+
+.side_button{
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:15px;
+}
+
+.sideB{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:20px;
+    width: 220px;
+    height: 35px;
+    border-radius: 10px;
+    border: white;
+    padding-left: 20px;
+    background: #ffffff;
+}
+
+.sideB:hover{
+    background:#EFEDF5;
+}
+
+.currentB{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:20px;
+    width: 220px;
+    height: 35px;
+    border-radius: 10px;
+    border: rgb(255, 255, 255);
+    padding-left: 20px;
+    color: white;
+    background:#5038F6;
+}
+
+.currentB:hover{
+    background:#1D1C2B;
+}
+
+.content{
+    background-color: #F9FAFB;
+    box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.411);
+}
+</style>
+<body>
+    <div class="header">
+    <div class="left">
+        <h1 class="title">CMS</h1>
+        <small>Complaint Managemnet System</small>
+    </div>
+    <div class="right">
+        <small id="un">Username</small>
+        <button class="logoutB">
+            <img src="https://img.icons8.com/?size=100&id=2445&format=png&color=FF0000" alt="">
+            <label>Logout</label>
+        </button>
+    </div>
+    </div>
+
+    <div class="main">
+        <div class="side_bar">
+            <div class="side_button">
+                <button class="sideB">
+                    <img src="https://img.icons8.com/?size=100&id=F28yEPaIjm4o&format=png&color=000000" alt="">
+                    <label>Dashboard</label>
+                 </button>
+                <button class="currentB">
+                    <img src="https://img.icons8.com/?size=100&id=8NOw038BccLN&format=png&color=FFFFFF" alt="">
+                    <label>Register Complaint</label>
+                </button>
+                 <button class="sideB">
+                    <img src="https://img.icons8.com/?size=100&id=78975&format=png&color=000000" alt="">
+                    <label>My Complaints</label>
+                </button>
+            </div>
+        </div>
+        <div class="content">
+
+        </div>
+    </div>
+</body>
+</html>
