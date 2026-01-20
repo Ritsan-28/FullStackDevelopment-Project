@@ -1,0 +1,13 @@
+first_name = input("Enter FN : ") 
+last_name = input("Enter LN : ")
+print("FN : ",first_name)
+print("LN : ",last_name)
+full_name = first_name+last_name
+print("Concatenate : ",full_name)
+print("UpperCase : ",full_name.upper())
+print("LowerCase : ",full_name.lower())
+print("Capitalize : ",full_name.capitalize())
+print("IsLower : ",full_name.islower())
+print("IsUpper : ",full_name.isupper())
+print("Position of a : ",full_name.find("a"))
+print("Count no. of a : ",full_name.count("a"))

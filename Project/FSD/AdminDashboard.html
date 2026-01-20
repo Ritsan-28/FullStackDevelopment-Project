@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e9ecef; /* Light gray background */
+            color: #495057; /* Darker text for better readability */
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: #343a40; /* Dark background */
+            color: #fff; /* White text */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 26px; /* Slightly larger title */
+            font-weight: 600;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        .logoutB {
+            border: none;
+            background: #dc3545; /* Reddish logout button */
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logoutB:hover {
+            background-color: #c82333;
+        }
+
+        /* Main Content Styles */
+        .main {
+            padding-top: 70px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            height: calc(100vh - 70px);
+            transition: all 0.3s ease;
+        }
+
+        /* Sidebar Styles */
+        .side_bar {
+            background: #fff;
+            border-right: 1px solid #dee2e6; /* Light border */
+            transition: width 0.3s ease;
+            width: 250px;
+            position: relative;
+            padding-top: 20px; /* Add some space at the top */
+        }
+
+        /* Sidebar Toggler Button */
+        .sidebar-toggler {
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            width: 40px;
+            height: 40px;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 11;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-toggler:hover {
+            background-color: #f8f9fa;
+        }
+
+        .sidebar-toggler i {
+            font-size: 18px;
+            color: #495057;
+        }
+
+        /* Sidebar Buttons */
+        .side_button {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch; /* Stretch buttons to full width */
+            gap: 8px;
+            padding: 0 15px; /* Add horizontal padding */
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        .sideB, .currentB {
+            height: 42px; /* Slightly taller buttons */
+            border-radius: 5px;
+            border: none;
+            background: #fff;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            text-decoration: none; /* Remove underlines from links */
+        }
+
+        .sideB:hover, .currentB:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.02);
+        }
+
+        .sideB:active, .currentB:active {
+            transform: scale(0.98);
+        }
+
+        .currentB {
+            font-weight: bold;
+            background-color: #e2e6ea;
+        }
+
+         /* Content Styles */
+        .content {
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* KPI Container */
+        .kpi-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        /* KPI Card */
+        .kpi-card {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .kpi-title {
+            font-size: 15px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .kpi-value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        /* Section Box */
+        .section-box {
+            background: #fff;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            animation: fadeInUp 0.7s ease-out;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #343a40;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 5px;
+        }
+
+        /* Table Styles */
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-bordered thead th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+        }
+
+        .table-sm th,
+        .table-sm td {
+            padding: 0.7rem; /* Slightly more padding */
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main {
+                grid-template-columns: 1fr;
+            }
+            .side_bar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #dee2e6;
+                padding-top: 10px;
+            }
+            .side_button {
+                flex-direction: row;
+                justify-content: space-around;
+                margin-top: 0;
+                padding: 0 5px;
+            }
+            .sideB, .currentB {
+                width: auto;
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                white-space: nowrap;
+                justify-content: center;
+            }
+            .sideB span, .currentB span {
+                display: block; /* Show text on smaller screens */
+            }
+            .kpi-container {
+                grid-template-columns: repeat(1, 1fr); /* Stack on smaller screens */
+            }
+            .sidebar-toggler {
+                top: auto;
+                bottom: 10px;
+            }
+        }
+
+        /* Collapsed Sidebar Styles */
+        .main.sidebar-collapsed {
+            grid-template-columns: 60px 1fr;
+        }
+
+        .main.sidebar-collapsed .side_bar {
+            width: 60px;
+            align-items: center;
+        }
+
+        .main.sidebar-collapsed .side_button {
+            align-items: center;
+            padding: 0;
+        }
+
+        .main.sidebar-collapsed .sideB,
+        .main.sidebar-collapsed .currentB {
+            width: 40px;
+            padding: 8px;
+            justify-content: center;
+        }
+
+        .main.sidebar-collapsed .sideB span,
+        .main.sidebar-collapsed .currentB span {
+            display: none;
+        }
+
+        .main.sidebar-collapsed .sidebar-toggler {
+            right: -10px;
+        }
+
+        /* Smaller screens adjustments for collapsed sidebar */
+        @media (max-width: 768px) {
+            .main.sidebar-collapsed .side_bar {
+                width: 100%; /* Full width sidebar on smaller screens */
+            }
+            .main.sidebar-collapsed {
+                grid-template-columns: 1fr; /* Stack sidebar and content */
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <div>
+        <h3 class="title">CMS</h3>
+        <small>Complaint Management System</small>
+    </div>
+
+    <div class="right">
+        <span>Admin</span>
+        <button class="logoutB">Logout</button>
+    </div>
+</div>
+
+<div class="main">
+
+    <div class="side_bar">
+        <div class="sidebar-toggler" id="sidebarToggler">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="side_button">
+            <a href="#" class="currentB"><span>Dashboard</span></a>
+            <a href="#" class="sideB"><span>All Complaints</span></a>
+            <a href="#" class="sideB"><span>Escalations</span></a>
+            <a href="#" class="sideB"><span>Analytics</span></a>
+            <a href="#" class="sideB"><span>Staff Performance</span></a>
+        </div>
+    </div>
+
+    <div class="content">
+
+        <div class="kpi-container">
+            <div class="kpi-card">
+                <div class="kpi-title">Total Complaints</div>
+                <div class="kpi-value">100</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Pending</div>
+                <div class="kpi-value">30</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Resolved</div>
+                <div class="kpi-value">50</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-title">Escalated</div>
+                <div class="kpi-value">20</div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <div class="section-title">Complaints by Department</div>
+            <p>Chart will be displayed here (Implementation with Chart.js or similar library)</p>
+        </div>
+
+        <div class="section-box">
+            <div class="section-title">Priority Distribution</div>
+            <p>Chart will be displayed here (Implementation with Chart.js or similar library)</p>
+        </div>
+
+        <div class="section-box">
+            <div class="section-title">Neglected & Escalated Complaints</div>
+
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category</th>
+                        <th>Delay</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>101</td>
+                        <td>Electrical</td>
+                        <td>10 hrs</td>
+                        <td>Escalated</td>
+                    </tr>
+                    <tr>
+                        <td>102</td>
+                        <td>Lift</td>
+                        <td>20 hrs</td>
+                        <td>Delayed</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggler = document.getElementById('sidebarToggler');
+        const main = document.querySelector('.main');
+
+        sidebarToggler.addEventListener('click', function() {
+            main.classList.toggle('sidebar-collapsed');
+
+            // Update the icon based on the sidebar state
+            const icon = sidebarToggler.querySelector('i');
+            if (main.classList.contains('sidebar-collapsed')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-chevron-right');
+            } else {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

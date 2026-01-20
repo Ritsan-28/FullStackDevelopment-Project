@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+function calc(a,b,c){
+    let result;
+    if(c==1){
+        result = "Addition : " + (a+b);
+    }
+    else if(c==2){
+        result = "Subtraction : " + (a-b);
+    }
+    else if(c==3){
+        result = "Multiplication : " + (a*b);
+    }
+    else if(c==4){
+        result = b!==0 ? "Division : " + (a/b) : "Error: Division by zero";
+    }
+    else if(c==5){
+        result = "Modulus : " + (a%b);
+    }
+    else{
+        result = "Error: Invalid choice";
+    }
+    document.body.innerHTML += `<p>${result}</p>`;
+    }
+
+    var a = Number(prompt("Enter a : "));
+    var b = Number(prompt("Enter b : "));
+    var c = Number(prompt("Enter c (1=Add,2=Sub,3=Mul,4=Div,5=Mod): "));
+    calc(a,b,c);
+</script>
+
+</body>
+</html>
+
+

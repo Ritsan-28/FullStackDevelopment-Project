@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics & Reports</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Adjust chart container size as needed */
+        .chart-container {
+            width: 100%;
+            height: 300px; /* Adjust height */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="page-title">
+        Analytics & Reports
+    </div>
+
+    <div class="box">
+        <div class="section-title">Filters</div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Date</label>
+                <input type="date" class="form-control" id="date-filter">
+            </div>
+
+            <div class="col-md-6">
+                <label>Department</label>
+                <select class="form-select" id="department-filter">
+                    <option value="all">All</option>
+                    <option value="electrical">Electrical</option>
+                    <option value="plumbing">Plumbing</option>
+                    <option value="lift">Lift</option>
+                    <option value="cleaning">Cleaning</option>
+                </select>
+            </div>
+        </div>
+
+        <p class="note mt-2">
+            * Complaint priority is automatically assigned by AI. Users and admins cannot manually set priority.
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                <div class="section-title">Complaints by Department</div>
+                <div class="chart-container">
+                    <canvas id="department-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="box">
+                <div class="section-title">Priority Distribution (AI Assigned)</div>
+                  <div class="chart-container">
+                      <canvas id="priority-chart"></canvas>
+                  </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Resolution Time Trend</div>
+         <div class="chart-container">
+              <canvas id="resolution-chart"></canvas>
+         </div>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Recurring Issues</div>
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Issue</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Electrical Fault</td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>Water Leakage</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <td>Lift Breakdown</td>
+                    <td>5</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box">
+        <div class="section-title">Key Insights</div>
+        <ul>
+            <li>Electrical complaints increased this month</li>
+            <li>Lift issues are frequently escalated by AI</li>
+            <li>Cleaning department resolves complaints faster</li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    // Sample Data (Replace with your actual data source)
+    const complaintData = [
+        { department: 'electrical', priority: 'high', resolutionTime: 24 },
+        { department: 'electrical', priority: 'medium', resolutionTime: 36 },
+        { department: 'plumbing', priority: 'low', resolutionTime: 12 },
+        { department: 'lift', priority: 'high', resolutionTime: 48 },
+        { department: 'cleaning', priority: 'low', resolutionTime: 8 },
+        { department: 'cleaning', priority: 'medium', resolutionTime: 16 },
+        { department: 'electrical', priority: 'high', resolutionTime: 30 },
+        { department: 'plumbing', priority: 'medium', resolutionTime: 24 },
+        { department: 'lift', priority: 'high', resolutionTime: 60 },
+        { department: 'cleaning', priority: 'low', resolutionTime: 6 },
+        // ... more data
+    ];
+
+    // Function to group data by department
+    function groupByDepartment(data) {
+        return data.reduce((acc, item) => {
+            const department = item.department;
+            if (!acc[department]) {
+                acc[department] = 0;
+            }
+            acc[department]++;
+            return acc;
+        }, {});
+    }
+
+    // Function to group data by priority
+    function groupByPriority(data) {
+        return data.reduce((acc, item) => {
+            const priority = item.priority;
+            if (!acc[priority]) {
+                acc[priority] = 0;
+            }
+            acc[priority]++;
+            return acc;
+        }, {});
+    }
+
+    // Function to calculate average resolution time
+    function calculateAverageResolutionTime(data) {
+        if (data.length === 0) return 0;
+        const totalResolutionTime = data.reduce((sum, item) => sum + item.resolutionTime, 0);
+        return totalResolutionTime / data.length;
+    }
+
+    // Function to filter data based on date and department
+    function filterData(data, date, department) {
+        let filteredData = data;
+
+        if (date) {
+            filteredData = filteredData.filter(item => {
+                // Assuming your data has a date field (e.g., item.date)
+                // Adjust the comparison based on your date format
+                // For example, if item.date is a string in "YYYY-MM-DD" format:
+                // return item.date >= date;
+                // Since we don't have actual date fields, this filter will effectively be skipped for now
+                return true; // Keep all items for now
+            });
+        }
+
+        if (department !== 'all') {
+            filteredData = filteredData.filter(item => item.department === department);
+        }
+
+        return filteredData;
+    }
+
+
+    // Get chart canvases
+    const departmentChartCanvas = document.getElementById('department-chart').getContext('2d');
+    const priorityChartCanvas = document.getElementById('priority-chart').getContext('2d');
+    const resolutionChartCanvas = document.getElementById('resolution-chart').getContext('2d');
+
+    // Create charts (initially with all data)
+    let departmentChart, priorityChart, resolutionChart;
+
+    function createCharts(data) {
+        const departmentData = groupByDepartment(data);
+        const priorityData = groupByPriority(data);
+        const averageResolutionTime = calculateAverageResolutionTime(data); // Simplified for a single average value
+
+        // Destroy existing charts if they exist
+        if (departmentChart) departmentChart.destroy();
+        if (priorityChart) priorityChart.destroy();
+        if (resolutionChart) resolutionChart.destroy();
+
+        // Complaints by Department Chart
+        departmentChart = new Chart(departmentChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(departmentData),
+                datasets: [{
+                    label: 'Number of Complaints',
+                    data: Object.values(departmentData),
+                    backgroundColor: ['#2ecc71', '#3498db', '#9b59b6', '#f1c40f', '#e74c3c']
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Priority Distribution Chart
+        priorityChart = new Chart(priorityChartCanvas, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(priorityData),
+                datasets: [{
+                    label: 'Number of Complaints',
+                    data: Object.values(priorityData),
+                    backgroundColor: ['#e74c3c', '#f39c12', '#2ecc71']
+                }]
+            },
+        });
+
+        // Resolution Time Trend (Simplified to a bar chart showing a single average)
+        resolutionChart = new Chart(resolutionChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: ['Average Resolution Time'],
+                datasets: [{
+                    label: 'Hours',
+                    data: [averageResolutionTime],
+                    backgroundColor: '#3498db'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+
+    // Initial chart creation
+    createCharts(complaintData);
+
+
+    // Event listeners for filters
+    const dateFilter = document.getElementById('date-filter');
+    const departmentFilter = document.getElementById('department-filter');
+
+
+    dateFilter.addEventListener('change', applyFilters);
+    departmentFilter.addEventListener('change', applyFilters);
+
+
+    function applyFilters() {
+        const selectedDate = dateFilter.value;
+        const selectedDepartment = departmentFilter.value;
+
+
+        const filteredData = filterData(complaintData, selectedDate, selectedDepartment);
+        createCharts(filteredData);
+    }
+</script>
+
+</body>
+</html>

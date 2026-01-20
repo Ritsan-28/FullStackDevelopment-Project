@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <br><br>
+    <label>Enter num1 : </label>
+    <input type="text" id="num1"><br><br>
+    <label>Enter num2 : </label>
+    <input type="text" id="num2"><br><br>
+    <button onclick="adding()">Add</button><br><br>
+    <b><i>The Added Value is : </i><b id="output"></b></b>
+</body>
+<script>
+    function adding(){
+        var a = Number(document.getElementById("num1").value);
+        var b = Number(document.getElementById("num2").value);
+        document.getElementById("output").innerHTML=a+b;
+    }
+</script>
+</html>
